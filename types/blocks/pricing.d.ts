@@ -13,23 +13,24 @@ export interface PricingItem {
   label?: string;
   price?: string;
   original_price?: string;
-  currency?: string;
   unit?: string;
   features_title?: string;
   features?: string[];
   button?: Button;
   tip?: string;
   is_featured?: boolean;
-  interval: "month" | "year" | "one-time";
-  product_id: string;
+  featured?: boolean;
+  interval?: "month" | "year" | "one-time";
+  product_id?: string;
   product_name?: string;
-  amount: number;
+  amount?: number;
   cn_amount?: number;
-  currency: string;
+  currency?: string;
   credits?: number;
   valid_months?: number;
   group?: string;
   planId?: number;
+  button_text?: string;
 }
 
 export interface Pricing {
