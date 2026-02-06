@@ -3,7 +3,6 @@ import {
   localeDetection,
   localePrefix,
   locales,
-  pathnames,
 } from "./locale";
 
 import { createNavigation } from "next-intl/navigation";
@@ -13,7 +12,6 @@ export const routing = defineRouting({
   locales,
   defaultLocale,
   localePrefix,
-  pathnames,
   localeDetection,
 });
 

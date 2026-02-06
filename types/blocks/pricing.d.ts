@@ -31,13 +31,19 @@ export interface PricingItem {
   group?: string;
   planId?: number;
   button_text?: string;
+  badge?: string;
+  badge_icon?: string;
+  bonus_percentage?: number;
+  limited_time_bonus?: boolean;
 }
 
 export interface Pricing {
   disabled?: boolean;
   name?: string;
   title?: string;
+  subtitle?: string;
   description?: string;
+  disclaimer?: string;
   items?: PricingItem[];
   groups?: PricingGroup[];
 }

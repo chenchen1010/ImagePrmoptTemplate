@@ -83,3 +83,26 @@
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+/* Shimmer animation for pricing card */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Pricing features list styles */
+.pricing-features li {
+  @apply transition-colors duration-200;
+}
+
+.pricing-features li:hover {
+  @apply text-foreground/90;
+}
+
+.pricing-features svg {
+  @apply text-primary;
+}

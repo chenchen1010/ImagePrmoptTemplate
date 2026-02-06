@@ -29,5 +29,9 @@ export default async function PricingPage({
   const { locale } = await params;
   const page = await getPricingPage(locale);
 
-  return <>{page.pricing && <Pricing pricing={page.pricing} />}</>;
+  if (!page.pricing) {
+    return null;
+  }
+
+  return <Pricing pricing={page.pricing} />;
 }
