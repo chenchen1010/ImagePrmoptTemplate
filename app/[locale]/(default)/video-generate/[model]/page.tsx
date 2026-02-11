@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/dialog";
 import { Sparkles, Languages, ChevronDown } from "lucide-react";
 import { toast } from "sonner";
-import cosUploadService from "@/lib/cos-upload";
+import r2UploadService from "@/lib/r2-upload";
 import { useConsumptionItems } from "@/hooks/useConsumptionItems";
 import { mapVideoModelToConsumptionType } from "@/lib/model-consumption-mapping";
 import {
@@ -43,7 +43,7 @@ function GoogleAuthHandler() {
     // 清除所有 Google OAuth 和登录相关的标志
     sessionStorage.removeItem('google_oauth_in_progress');
     sessionStorage.removeItem('user_opened_sign_modal');
-    
+
     const authToken = searchParams.get('auth_token');
     const refreshToken = searchParams.get('refresh_token');
 
@@ -177,7 +177,7 @@ export default function VideoGeneratePage() {
 
     // 其他路由：匹配模型 id 或 name 字段
     return m.id.toLowerCase().includes(routeModel.toLowerCase()) ||
-           m.name.toLowerCase().includes(routeModel.toLowerCase());
+      m.name.toLowerCase().includes(routeModel.toLowerCase());
   });
 
   useEffect(() => {
@@ -269,7 +269,7 @@ export default function VideoGeneratePage() {
       toast.error(t('toast.pleaseUploadImageFile'));
       return;
     }
-    
+
     if (file.size > 10 * 1024 * 1024) {
       toast.error(t('toast.imageTooLarge'));
       return;
@@ -287,17 +287,17 @@ export default function VideoGeneratePage() {
     try {
       setIsUploadingImage(true);
       setUploadProgress(0);
-      
-      console.log('[I2V] 开始上传图片到 COS...');
-      const imageUrl = await cosUploadService.uploadFileWithRetry(
+
+      console.log('[I2V] 开始上传图片到 R2...');
+      const imageUrl = await r2UploadService.uploadFileWithRetry(
         file,
-        'video-generation/audio', // 使用视频生成音频驱动类型
+        'image',
         {
-          onProgress: (progress) => {
+          onProgress: (progress: number) => {
             setUploadProgress(progress);
             console.log('[I2V] 上传进度:', progress + '%');
           },
-          onError: (error) => {
+          onError: (error: Error) => {
             console.error('[I2V] 上传错误:', error);
           }
         }
@@ -1098,7 +1098,7 @@ export default function VideoGeneratePage() {
                       <p className="text-sm text-muted-foreground mb-4">
                         {t('imageToVideo.referenceDescription')}
                       </p>
-                      
+
                       {!referenceImagePreview ? (
                         <label className="block border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-10 text-center cursor-pointer hover:border-purple-500 hover:bg-purple-50/50 dark:hover:bg-purple-900/10 transition-all group">
                           <input
@@ -1426,42 +1426,42 @@ export default function VideoGeneratePage() {
             <section className="relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-blue-950/20 dark:via-background dark:to-purple-950/20"></div>
               <div className="container mx-auto px-4 py-20 relative">
-              <div className="max-w-6xl mx-auto">
-                <h2 className="text-3xl md:text-5xl font-bold text-center mb-6 text-gray-900 dark:text-foreground">
-                  {t('veo.features.physics.title')}
-                </h2>
-                <p className="text-center text-gray-600 dark:text-muted-foreground mb-12 max-w-3xl mx-auto text-lg">
-                  {t('veo.features.physics.description')}
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="bg-white dark:bg-card rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 border border-gray-100 dark:border-border">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
-                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                        </svg>
+                <div className="max-w-6xl mx-auto">
+                  <h2 className="text-3xl md:text-5xl font-bold text-center mb-6 text-gray-900 dark:text-foreground">
+                    {t('veo.features.physics.title')}
+                  </h2>
+                  <p className="text-center text-gray-600 dark:text-muted-foreground mb-12 max-w-3xl mx-auto text-lg">
+                    {t('veo.features.physics.description')}
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="bg-white dark:bg-card rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 border border-gray-100 dark:border-border">
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
+                          <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                          </svg>
+                        </div>
+                        <h3 className="text-xl font-semibold text-foreground">{t('veo.features.physics.titleBold1')}</h3>
                       </div>
-                      <h3 className="text-xl font-semibold text-foreground">{t('veo.features.physics.titleBold1')}</h3>
+                      <p className="text-muted-foreground">
+                        {t('veo.features.physics.physics_desc')}
+                      </p>
                     </div>
-                    <p className="text-muted-foreground">
-                      {t('veo.features.physics.physics_desc')}
-                    </p>
-                  </div>
-                  <div className="bg-white dark:bg-card rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 border border-gray-100 dark:border-border">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center">
-                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                        </svg>
+                    <div className="bg-white dark:bg-card rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 border border-gray-100 dark:border-border">
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center">
+                          <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                          </svg>
+                        </div>
+                        <h3 className="text-xl font-semibold text-foreground">{t('veo.features.physics.titleBold2')}</h3>
                       </div>
-                      <h3 className="text-xl font-semibold text-foreground">{t('veo.features.physics.titleBold2')}</h3>
+                      <p className="text-muted-foreground">
+                        {t('veo.features.physics.human_motion_desc')}
+                      </p>
                     </div>
-                    <p className="text-muted-foreground">
-                      {t('veo.features.physics.human_motion_desc')}
-                    </p>
                   </div>
                 </div>
-              </div>
               </div>
             </section>
 
@@ -1469,55 +1469,55 @@ export default function VideoGeneratePage() {
             <section className="relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-purple-50 via-white to-blue-50 dark:from-purple-950/20 dark:via-background dark:to-blue-950/20"></div>
               <div className="container mx-auto px-4 py-20 relative">
-              <div className="max-w-6xl mx-auto">
-                <h2 className="text-3xl md:text-5xl font-bold text-center mb-6 text-gray-900 dark:text-foreground">
-                  {t('veo.features.audio.title')}
-                </h2>
-                <p className="text-center text-gray-600 dark:text-muted-foreground mb-12 max-w-3xl mx-auto text-lg">
-                  {t('veo.features.audio.description')}
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className="bg-white dark:bg-card rounded-xl p-6 shadow-md hover:shadow-lg transition-all transform hover:-translate-y-1 border border-gray-100 dark:border-border">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center">
-                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15.536a5 5 0 001.414 1.414m2.828-9.9a9 9 0 0112.728 0" />
-                        </svg>
+                <div className="max-w-6xl mx-auto">
+                  <h2 className="text-3xl md:text-5xl font-bold text-center mb-6 text-gray-900 dark:text-foreground">
+                    {t('veo.features.audio.title')}
+                  </h2>
+                  <p className="text-center text-gray-600 dark:text-muted-foreground mb-12 max-w-3xl mx-auto text-lg">
+                    {t('veo.features.audio.description')}
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="bg-white dark:bg-card rounded-xl p-6 shadow-md hover:shadow-lg transition-all transform hover:-translate-y-1 border border-gray-100 dark:border-border">
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center">
+                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15.536a5 5 0 001.414 1.414m2.828-9.9a9 9 0 0112.728 0" />
+                          </svg>
+                        </div>
+                        <h4 className="font-semibold text-lg text-foreground">{t('veo.features.audio.sound_effects_title')}</h4>
                       </div>
-                      <h4 className="font-semibold text-lg text-foreground">{t('veo.features.audio.sound_effects_title')}</h4>
+                      <p className="text-sm text-muted-foreground">
+                        {t('veo.features.audio.sound_effects_desc')}
+                      </p>
                     </div>
-                    <p className="text-sm text-muted-foreground">
-                      {t('veo.features.audio.sound_effects_desc')}
-                    </p>
-                  </div>
-                  <div className="bg-white dark:bg-card rounded-xl p-6 shadow-md hover:shadow-lg transition-all transform hover:-translate-y-1 border border-gray-100 dark:border-border">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
-                        </svg>
+                    <div className="bg-white dark:bg-card rounded-xl p-6 shadow-md hover:shadow-lg transition-all transform hover:-translate-y-1 border border-gray-100 dark:border-border">
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+                          </svg>
+                        </div>
+                        <h4 className="font-semibold text-lg text-foreground">{t('veo.features.audio.ambient_noise_title')}</h4>
                       </div>
-                      <h4 className="font-semibold text-lg text-foreground">{t('veo.features.audio.ambient_noise_title')}</h4>
+                      <p className="text-sm text-muted-foreground">
+                        {t('veo.features.audio.ambient_noise_desc')}
+                      </p>
                     </div>
-                    <p className="text-sm text-muted-foreground">
-                      {t('veo.features.audio.ambient_noise_desc')}
-                    </p>
-                  </div>
-                  <div className="bg-white dark:bg-card rounded-xl p-6 shadow-md hover:shadow-lg transition-all transform hover:-translate-y-1 border border-gray-100 dark:border-border">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center">
-                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                        </svg>
+                    <div className="bg-white dark:bg-card rounded-xl p-6 shadow-md hover:shadow-lg transition-all transform hover:-translate-y-1 border border-gray-100 dark:border-border">
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center">
+                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                          </svg>
+                        </div>
+                        <h4 className="font-semibold text-lg text-foreground">{t('veo.features.audio.dialogue_title')}</h4>
                       </div>
-                      <h4 className="font-semibold text-lg text-foreground">{t('veo.features.audio.dialogue_title')}</h4>
+                      <p className="text-sm text-muted-foreground">
+                        {t('veo.features.audio.dialogue_desc')}
+                      </p>
                     </div>
-                    <p className="text-sm text-muted-foreground">
-                      {t('veo.features.audio.dialogue_desc')}
-                    </p>
                   </div>
                 </div>
-              </div>
               </div>
             </section>
 
@@ -1525,50 +1525,50 @@ export default function VideoGeneratePage() {
             <section className="relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-pink-50 via-white to-purple-50 dark:from-pink-950/20 dark:via-background dark:to-purple-950/20"></div>
               <div className="container mx-auto px-4 py-20 relative">
-              <div className="max-w-6xl mx-auto">
-                <h2 className="text-3xl md:text-5xl font-bold text-center mb-6 text-gray-900 dark:text-foreground">
-                  {t('veo.features.editing.title')}
-                </h2>
-                <p className="text-center text-gray-600 dark:text-muted-foreground mb-12 max-w-3xl mx-auto text-lg">
-                  {t('veo.features.editing.description')}
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className="text-center p-6">
-                    <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
-                      </svg>
+                <div className="max-w-6xl mx-auto">
+                  <h2 className="text-3xl md:text-5xl font-bold text-center mb-6 text-gray-900 dark:text-foreground">
+                    {t('veo.features.editing.title')}
+                  </h2>
+                  <p className="text-center text-gray-600 dark:text-muted-foreground mb-12 max-w-3xl mx-auto text-lg">
+                    {t('veo.features.editing.description')}
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="text-center p-6">
+                      <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
+                        </svg>
+                      </div>
+                      <h4 className="font-semibold text-lg mb-2 text-foreground">{t('veo.features.editing.titleBold1')}</h4>
+                      <p className="text-sm text-muted-foreground">
+                        {t('veo.features.editing.flow_integration_desc')}
+                      </p>
                     </div>
-                    <h4 className="font-semibold text-lg mb-2 text-foreground">{t('veo.features.editing.titleBold1')}</h4>
-                    <p className="text-sm text-muted-foreground">
-                      {t('veo.features.editing.flow_integration_desc')}
-                    </p>
-                  </div>
-                  <div className="text-center p-6">
-                    <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
+                    <div className="text-center p-6">
+                      <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </div>
+                      <h4 className="font-semibold text-lg mb-2 text-foreground">{t('veo.features.editing.titleBold2')}</h4>
+                      <p className="text-sm text-muted-foreground">
+                        {t('veo.features.editing.editing_tools_desc')}
+                      </p>
                     </div>
-                    <h4 className="font-semibold text-lg mb-2 text-foreground">{t('veo.features.editing.titleBold2')}</h4>
-                    <p className="text-sm text-muted-foreground">
-                      {t('veo.features.editing.editing_tools_desc')}
-                    </p>
-                  </div>
-                  <div className="text-center p-6">
-                    <div className="w-16 h-16 bg-gradient-to-br from-pink-600 to-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                      </svg>
+                    <div className="text-center p-6">
+                      <div className="w-16 h-16 bg-gradient-to-br from-pink-600 to-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                      </div>
+                      <h4 className="font-semibold text-lg mb-2 text-foreground">{t('veo.features.editing.titleBold3')}</h4>
+                      <p className="text-sm text-muted-foreground">
+                        {t('veo.features.editing.cinematic_control_desc')}
+                      </p>
                     </div>
-                    <h4 className="font-semibold text-lg mb-2 text-foreground">{t('veo.features.editing.titleBold3')}</h4>
-                    <p className="text-sm text-muted-foreground">
-                      {t('veo.features.editing.cinematic_control_desc')}
-                    </p>
                   </div>
                 </div>
-              </div>
               </div>
             </section>
           </>
@@ -1703,154 +1703,154 @@ export default function VideoGeneratePage() {
         {/* FAQ Section */}
         <section className="relative overflow-hidden bg-gradient-to-b from-white to-gray-50 dark:from-background dark:to-gray-900/20 py-20">
           <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-4 text-foreground">
-              {routeModel === 'doubao-seedance' ? t('seedance.faq.title') :
-               (routeModel === 'veo' || routeModel === 'google-veo' || routeModel === 'veo-3') ? t('veo.faq.title') :
-               t('faq.title')}
-            </h2>
-            <p className="text-center text-muted-foreground mb-12">
-              {routeModel === 'doubao-seedance' ? t('seedance.faq.subtitle') :
-               (routeModel === 'veo' || routeModel === 'google-veo' || routeModel === 'veo-3') ? t('veo.faq.subtitle') :
-               t('faq.subtitle')}
-            </p>
+            <div className="max-w-4xl mx-auto">
+              <h2 className="text-3xl font-bold text-center mb-4 text-foreground">
+                {routeModel === 'doubao-seedance' ? t('seedance.faq.title') :
+                  (routeModel === 'veo' || routeModel === 'google-veo' || routeModel === 'veo-3') ? t('veo.faq.title') :
+                    t('faq.title')}
+              </h2>
+              <p className="text-center text-muted-foreground mb-12">
+                {routeModel === 'doubao-seedance' ? t('seedance.faq.subtitle') :
+                  (routeModel === 'veo' || routeModel === 'google-veo' || routeModel === 'veo-3') ? t('veo.faq.subtitle') :
+                    t('faq.subtitle')}
+              </p>
 
-            <Accordion type="single" collapsible className="w-full">
-              {routeModel === 'doubao-seedance' ? (
-                <>
-                  <AccordionItem value="item-1" className="border-b border-border">
-                    <AccordionTrigger className="text-left hover:no-underline">
-                      <span className="font-semibold text-foreground">{t('seedance.faq.q1.question')}</span>
-                    </AccordionTrigger>
-                    <AccordionContent className="text-muted-foreground pt-2 pb-4">
-                      {t('seedance.faq.q1.answer')}
-                    </AccordionContent>
-                  </AccordionItem>
+              <Accordion type="single" collapsible className="w-full">
+                {routeModel === 'doubao-seedance' ? (
+                  <>
+                    <AccordionItem value="item-1" className="border-b border-border">
+                      <AccordionTrigger className="text-left hover:no-underline">
+                        <span className="font-semibold text-foreground">{t('seedance.faq.q1.question')}</span>
+                      </AccordionTrigger>
+                      <AccordionContent className="text-muted-foreground pt-2 pb-4">
+                        {t('seedance.faq.q1.answer')}
+                      </AccordionContent>
+                    </AccordionItem>
 
-                  <AccordionItem value="item-2" className="border-b border-border">
-                    <AccordionTrigger className="text-left hover:no-underline">
-                      <span className="font-semibold text-foreground">{t('seedance.faq.q2.question')}</span>
-                    </AccordionTrigger>
-                    <AccordionContent className="text-muted-foreground pt-2 pb-4">
-                      {t('seedance.faq.q2.answer')}
-                    </AccordionContent>
-                  </AccordionItem>
+                    <AccordionItem value="item-2" className="border-b border-border">
+                      <AccordionTrigger className="text-left hover:no-underline">
+                        <span className="font-semibold text-foreground">{t('seedance.faq.q2.question')}</span>
+                      </AccordionTrigger>
+                      <AccordionContent className="text-muted-foreground pt-2 pb-4">
+                        {t('seedance.faq.q2.answer')}
+                      </AccordionContent>
+                    </AccordionItem>
 
-                  <AccordionItem value="item-3" className="border-b border-border">
-                    <AccordionTrigger className="text-left hover:no-underline">
-                      <span className="font-semibold text-foreground">{t('seedance.faq.q3.question')}</span>
-                    </AccordionTrigger>
-                    <AccordionContent className="text-muted-foreground pt-2 pb-4">
-                      {t('seedance.faq.q3.answer')}
-                    </AccordionContent>
-                  </AccordionItem>
+                    <AccordionItem value="item-3" className="border-b border-border">
+                      <AccordionTrigger className="text-left hover:no-underline">
+                        <span className="font-semibold text-foreground">{t('seedance.faq.q3.question')}</span>
+                      </AccordionTrigger>
+                      <AccordionContent className="text-muted-foreground pt-2 pb-4">
+                        {t('seedance.faq.q3.answer')}
+                      </AccordionContent>
+                    </AccordionItem>
 
-                  <AccordionItem value="item-4" className="border-b border-border">
-                    <AccordionTrigger className="text-left hover:no-underline">
-                      <span className="font-semibold text-foreground">{t('seedance.faq.q4.question')}</span>
-                    </AccordionTrigger>
-                    <AccordionContent className="text-muted-foreground pt-2 pb-4">
-                      {t('seedance.faq.q4.answer')}
-                    </AccordionContent>
-                  </AccordionItem>
+                    <AccordionItem value="item-4" className="border-b border-border">
+                      <AccordionTrigger className="text-left hover:no-underline">
+                        <span className="font-semibold text-foreground">{t('seedance.faq.q4.question')}</span>
+                      </AccordionTrigger>
+                      <AccordionContent className="text-muted-foreground pt-2 pb-4">
+                        {t('seedance.faq.q4.answer')}
+                      </AccordionContent>
+                    </AccordionItem>
 
-                  <AccordionItem value="item-5" className="border-b border-border">
-                    <AccordionTrigger className="text-left hover:no-underline">
-                      <span className="font-semibold text-foreground">{t('seedance.faq.q5.question')}</span>
-                    </AccordionTrigger>
-                    <AccordionContent className="text-muted-foreground pt-2 pb-4">
-                      {t('seedance.faq.q5.answer')}
-                    </AccordionContent>
-                  </AccordionItem>
-                </>
-              ) : (routeModel === 'veo' || routeModel === 'google-veo' || routeModel === 'veo-3') ? (
-                <>
-                  <AccordionItem value="item-1" className="border-b border-border">
-                    <AccordionTrigger className="text-left hover:no-underline">
-                      <span className="font-semibold text-foreground">{t('veo.faq.q1.question')}</span>
-                    </AccordionTrigger>
-                    <AccordionContent className="text-muted-foreground pt-2 pb-4">
-                      {t('veo.faq.q1.answer')}
-                    </AccordionContent>
-                  </AccordionItem>
+                    <AccordionItem value="item-5" className="border-b border-border">
+                      <AccordionTrigger className="text-left hover:no-underline">
+                        <span className="font-semibold text-foreground">{t('seedance.faq.q5.question')}</span>
+                      </AccordionTrigger>
+                      <AccordionContent className="text-muted-foreground pt-2 pb-4">
+                        {t('seedance.faq.q5.answer')}
+                      </AccordionContent>
+                    </AccordionItem>
+                  </>
+                ) : (routeModel === 'veo' || routeModel === 'google-veo' || routeModel === 'veo-3') ? (
+                  <>
+                    <AccordionItem value="item-1" className="border-b border-border">
+                      <AccordionTrigger className="text-left hover:no-underline">
+                        <span className="font-semibold text-foreground">{t('veo.faq.q1.question')}</span>
+                      </AccordionTrigger>
+                      <AccordionContent className="text-muted-foreground pt-2 pb-4">
+                        {t('veo.faq.q1.answer')}
+                      </AccordionContent>
+                    </AccordionItem>
 
-                  <AccordionItem value="item-2" className="border-b border-border">
-                    <AccordionTrigger className="text-left hover:no-underline">
-                      <span className="font-semibold text-foreground">{t('veo.faq.q2.question')}</span>
-                    </AccordionTrigger>
-                    <AccordionContent className="text-muted-foreground pt-2 pb-4">
-                      {t('veo.faq.q2.answer')}
-                    </AccordionContent>
-                  </AccordionItem>
+                    <AccordionItem value="item-2" className="border-b border-border">
+                      <AccordionTrigger className="text-left hover:no-underline">
+                        <span className="font-semibold text-foreground">{t('veo.faq.q2.question')}</span>
+                      </AccordionTrigger>
+                      <AccordionContent className="text-muted-foreground pt-2 pb-4">
+                        {t('veo.faq.q2.answer')}
+                      </AccordionContent>
+                    </AccordionItem>
 
-                  <AccordionItem value="item-3" className="border-b border-border">
-                    <AccordionTrigger className="text-left hover:no-underline">
-                      <span className="font-semibold text-foreground">{t('veo.faq.q3.question')}</span>
-                    </AccordionTrigger>
-                    <AccordionContent className="text-muted-foreground pt-2 pb-4">
-                      {t('veo.faq.q3.answer')}
-                    </AccordionContent>
-                  </AccordionItem>
+                    <AccordionItem value="item-3" className="border-b border-border">
+                      <AccordionTrigger className="text-left hover:no-underline">
+                        <span className="font-semibold text-foreground">{t('veo.faq.q3.question')}</span>
+                      </AccordionTrigger>
+                      <AccordionContent className="text-muted-foreground pt-2 pb-4">
+                        {t('veo.faq.q3.answer')}
+                      </AccordionContent>
+                    </AccordionItem>
 
-                  <AccordionItem value="item-4" className="border-b border-border">
-                    <AccordionTrigger className="text-left hover:no-underline">
-                      <span className="font-semibold text-foreground">{t('veo.faq.q4.question')}</span>
-                    </AccordionTrigger>
-                    <AccordionContent className="text-muted-foreground pt-2 pb-4">
-                      {t('veo.faq.q4.answer')}
-                    </AccordionContent>
-                  </AccordionItem>
+                    <AccordionItem value="item-4" className="border-b border-border">
+                      <AccordionTrigger className="text-left hover:no-underline">
+                        <span className="font-semibold text-foreground">{t('veo.faq.q4.question')}</span>
+                      </AccordionTrigger>
+                      <AccordionContent className="text-muted-foreground pt-2 pb-4">
+                        {t('veo.faq.q4.answer')}
+                      </AccordionContent>
+                    </AccordionItem>
 
-                  <AccordionItem value="item-5" className="border-b border-border">
-                    <AccordionTrigger className="text-left hover:no-underline">
-                      <span className="font-semibold text-foreground">{t('veo.faq.q5.question')}</span>
-                    </AccordionTrigger>
-                    <AccordionContent className="text-muted-foreground pt-2 pb-4">
-                      {t('veo.faq.q5.answer')}
-                    </AccordionContent>
-                  </AccordionItem>
-                </>
-              ) : (
-                <>
-                  <AccordionItem value="item-1" className="border-b border-border">
-                    <AccordionTrigger className="text-left hover:no-underline">
-                      <span className="font-semibold text-foreground">{t('faq.q1.question')}</span>
-                    </AccordionTrigger>
-                    <AccordionContent className="text-muted-foreground pt-2 pb-4">
-                      {t('faq.q1.answer')}
-                    </AccordionContent>
-                  </AccordionItem>
+                    <AccordionItem value="item-5" className="border-b border-border">
+                      <AccordionTrigger className="text-left hover:no-underline">
+                        <span className="font-semibold text-foreground">{t('veo.faq.q5.question')}</span>
+                      </AccordionTrigger>
+                      <AccordionContent className="text-muted-foreground pt-2 pb-4">
+                        {t('veo.faq.q5.answer')}
+                      </AccordionContent>
+                    </AccordionItem>
+                  </>
+                ) : (
+                  <>
+                    <AccordionItem value="item-1" className="border-b border-border">
+                      <AccordionTrigger className="text-left hover:no-underline">
+                        <span className="font-semibold text-foreground">{t('faq.q1.question')}</span>
+                      </AccordionTrigger>
+                      <AccordionContent className="text-muted-foreground pt-2 pb-4">
+                        {t('faq.q1.answer')}
+                      </AccordionContent>
+                    </AccordionItem>
 
-                  <AccordionItem value="item-2" className="border-b border-border">
-                    <AccordionTrigger className="text-left hover:no-underline">
-                      <span className="font-semibold text-foreground">{t('faq.q2.question')}</span>
-                    </AccordionTrigger>
-                    <AccordionContent className="text-muted-foreground pt-2 pb-4">
-                      {t('faq.q2.answer')}
-                    </AccordionContent>
-                  </AccordionItem>
+                    <AccordionItem value="item-2" className="border-b border-border">
+                      <AccordionTrigger className="text-left hover:no-underline">
+                        <span className="font-semibold text-foreground">{t('faq.q2.question')}</span>
+                      </AccordionTrigger>
+                      <AccordionContent className="text-muted-foreground pt-2 pb-4">
+                        {t('faq.q2.answer')}
+                      </AccordionContent>
+                    </AccordionItem>
 
-                  <AccordionItem value="item-3" className="border-b border-border">
-                    <AccordionTrigger className="text-left hover:no-underline">
-                      <span className="font-semibold text-foreground">{t('faq.q3.question')}</span>
-                    </AccordionTrigger>
-                    <AccordionContent className="text-muted-foreground pt-2 pb-4">
-                      {t('faq.q3.answer')}
-                    </AccordionContent>
-                  </AccordionItem>
+                    <AccordionItem value="item-3" className="border-b border-border">
+                      <AccordionTrigger className="text-left hover:no-underline">
+                        <span className="font-semibold text-foreground">{t('faq.q3.question')}</span>
+                      </AccordionTrigger>
+                      <AccordionContent className="text-muted-foreground pt-2 pb-4">
+                        {t('faq.q3.answer')}
+                      </AccordionContent>
+                    </AccordionItem>
 
-                  <AccordionItem value="item-4" className="border-b border-border">
-                    <AccordionTrigger className="text-left hover:no-underline">
-                      <span className="font-semibold text-foreground">{t('faq.q4.question')}</span>
-                    </AccordionTrigger>
-                    <AccordionContent className="text-muted-foreground pt-2 pb-4">
-                      {t('faq.q4.answer')}
-                    </AccordionContent>
-                  </AccordionItem>
-                </>
-              )}
-            </Accordion>
-          </div>
+                    <AccordionItem value="item-4" className="border-b border-border">
+                      <AccordionTrigger className="text-left hover:no-underline">
+                        <span className="font-semibold text-foreground">{t('faq.q4.question')}</span>
+                      </AccordionTrigger>
+                      <AccordionContent className="text-muted-foreground pt-2 pb-4">
+                        {t('faq.q4.answer')}
+                      </AccordionContent>
+                    </AccordionItem>
+                  </>
+                )}
+              </Accordion>
+            </div>
           </div>
         </section>
 
