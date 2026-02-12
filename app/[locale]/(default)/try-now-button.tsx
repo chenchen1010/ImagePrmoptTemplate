@@ -7,7 +7,7 @@ import { trackTryItNowClick } from "@/lib/analytics";
 export function TryNowButton({ locale, label }: { locale: string; label: string }) {
   return (
     <Link
-      href={`/${locale}/txt-to-image/nano-banana`}
+      href={`/${locale}/fashion-generate`}
       onClick={() => trackTryItNowClick('hero')}
     >
       <Button

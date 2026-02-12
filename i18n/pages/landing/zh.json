@@ -19,7 +19,7 @@
             {
               "title": "Nano Banana Pro",
               "description": "Gemini 2.5 Flash 图像编辑器",
-              "url": "/txt-to-image/nano-banana",
+              "url": "/fashion-generate",
               "icon": "RiFlashlightLine"
             }
           ]
@@ -181,7 +181,7 @@
           "children": [
             {
               "title": "Nano Banana Pro",
-              "url": "/txt-to-image/nano-banana",
+              "url": "/fashion-generate",
               "target": "_self"
             }
           ]
