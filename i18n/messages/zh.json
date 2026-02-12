@@ -572,7 +572,7 @@
     },
     "title_google": "Google Imagen 4 AI 图片生成器",
     "subtitle_google": "由 Google 最新的 Imagen 4 模型驱动 - Standard、Ultra 和 Fast，用于逼真和创意图像生成",
-    "title_nano_banana": "Nano Banana - Gemini 2.5 Flash 图像编辑器",
+    "title_nano_banana": "Nano Banana Pro - Gemini 2.5 Flash 图像编辑器",
     "subtitle_nano_banana": "Google 最先进的图像生成和编辑模型，支持多图融合、角色一致性和对话式编辑",
     "title_doubao": "Doubao Seedream AI 图片生成器",
     "subtitle_doubao": "体验字节跳动 Seedream 模型的强大能力，实现惊艳的文本和图像渲染",
@@ -619,7 +619,7 @@
       "step4": "下载或进一步编辑您生成的图片"
     },
     "showcase": {
-      "title": "看看 Nano Banana 的实际效果",
+      "title": "看看 Nano Banana Pro 的实际效果",
       "description": "拖动滑块以展示令人惊叹的AI变换效果",
       "example1": {
         "before": "原始客厅",
@@ -642,18 +642,18 @@
       "subtitle": "使用AI驱动的编辑和风格转换来转换您的图片"
     },
     "faq": {
-      "title": "关于 Nano Banana",
+      "title": "关于 Nano Banana Pro",
       "subtitle": "Google 最先进的图像生成和编辑模型",
-      "q1": "什么是 Nano Banana？",
-      "a1": "Nano Banana 是 Gemini 2.5 Flash Image 的昵称，是 Google 于 2025 年 8 月推出的先进 AI 图像生成和编辑模型。它能够直接通过文本提示或图像生成或编辑图像，在角色一致性和自然语言编辑方面具有卓越的能力。",
-      "q2": "Nano Banana 有哪些主要特点？",
-      "a2": "Nano Banana 在故事叙述的角色一致性、多图像融合、使用自然语言命令进行一次性编辑以及场景集成方面表现出色。它能够保持面部特征并将编辑与背景无缝融合，非常适合创建一致的 AI 内容和产品摄影。",
-      "q3": "Nano Banana 与其他模型相比如何？",
-      "a3": "Nano Banana 在角色一致性和场景融合能力方面表现突出。用户反馈它在保持面部特征和将编辑自然地融入背景方面显著优于竞争模型，使其成为专业内容创作的首选。",
-      "q4": "Nano Banana 的最佳使用场景是什么？",
-      "a4": "Nano Banana 非常适合创建一致的 AI 虚拟人物、UGC 内容、社交媒体活动、营销材料和产品摄影。它在多个图像中保持角色一致性的能力使其在丰富的故事叙述和品牌内容创作中不可或缺。",
-      "q5": "如何使用 Nano Banana？",
-      "a5": "Nano Banana（Gemini 2.5 Flash Image）可通过 Gemini API、面向开发者的 Google AI Studio 以及面向企业用户的 Vertex AI 访问。您也可以直接在 gemini.google.com 上传照片并使用自然语言编辑命令来使用它。"
+      "q1": "什么是 Nano Banana Pro？",
+      "a1": "Nano Banana Pro 是 Gemini 2.5 Flash Image 的昵称，是 Google 于 2025 年 8 月推出的先进 AI 图像生成和编辑模型。它能够直接通过文本提示或图像生成或编辑图像，在角色一致性和自然语言编辑方面具有卓越的能力。",
+      "q2": "Nano Banana Pro 有哪些主要特点？",
+      "a2": "Nano Banana Pro 在故事叙述的角色一致性、多图像融合、使用自然语言命令进行一次性编辑以及场景集成方面表现出色。它能够保持面部特征并将编辑与背景无缝融合，非常适合创建一致的 AI 内容和产品摄影。",
+      "q3": "Nano Banana Pro 与其他模型相比如何？",
+      "a3": "Nano Banana Pro 在角色一致性和场景融合能力方面表现突出。用户反馈它在保持面部特征和将编辑自然地融入背景方面显著优于竞争模型，使其成为专业内容创作的首选。",
+      "q4": "Nano Banana Pro 的最佳使用场景是什么？",
+      "a4": "Nano Banana Pro 非常适合创建一致的 AI 虚拟人物、UGC 内容、社交媒体活动、营销材料和产品摄影。它在多个图像中保持角色一致性的能力使其在丰富的故事叙述和品牌内容创作中不可或缺。",
+      "q5": "如何使用 Nano Banana Pro？",
+      "a5": "Nano Banana Pro（Gemini 2.5 Flash Image）可通过 Gemini API、面向开发者的 Google AI Studio 以及面向企业用户的 Vertex AI 访问。您也可以直接在 gemini.google.com 上传照片并使用自然语言编辑命令来使用它。"
     },
     "prompt_guide": {
       "title": "Google Imagen 提示词编写指南",

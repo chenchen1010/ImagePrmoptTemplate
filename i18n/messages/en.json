@@ -570,7 +570,7 @@
     },
     "title_google": "Google Imagen 4 AI Image Generator",
     "subtitle_google": "Powered by Google's latest Imagen 4 models - Standard, Ultra, and Fast for photorealistic and creative image generation",
-    "title_nano_banana": "Nano Banana - Gemini 2.5 Flash Image Editor",
+    "title_nano_banana": "Nano Banana Pro - Gemini 2.5 Flash Image Editor",
     "subtitle_nano_banana": "Google's state-of-the-art image generation and editing model with multi-image fusion, character consistency, and conversational editing",
     "title_doubao": "Doubao Seedream AI Image Generator",
     "subtitle_doubao": "Experience the power of ByteDance's Seedream models for stunning text and image rendering",
@@ -617,7 +617,7 @@
       "step4": "Download or further edit your generated image"
     },
     "showcase": {
-      "title": "See Nano Banana in Action",
+      "title": "See Nano Banana Pro in Action",
       "description": "Drag the slider to reveal stunning AI-powered transformations",
       "example1": {
         "before": "Original living room",
@@ -640,18 +640,18 @@
       "subtitle": "Transform your images with AI-powered editing and style transfer"
     },
     "faq": {
-      "title": "About Nano Banana",
+      "title": "About Nano Banana Pro",
       "subtitle": "Google's state-of-the-art image generation and editing model",
-      "q1": "What is Nano Banana?",
-      "a1": "Nano Banana is the nickname for Gemini 2.5 Flash Image, Google's advanced AI image generation and editing model launched in August 2025. It enables users to generate or edit images directly from text prompts or images, with exceptional capabilities in character consistency and natural language editing.",
-      "q2": "What are Nano Banana's key features?",
-      "a2": "Nano Banana excels in character consistency for storytelling, multi-image blending, one-shot editing with natural language commands, and scene integration. It can maintain facial features and seamlessly blend edits with backgrounds, making it ideal for creating consistent AI content and product photography.",
-      "q3": "How does Nano Banana compare to other models?",
-      "a3": "Nano Banana stands out for its superior character consistency and scene blending capabilities. Users report it significantly outperforms competing models in preserving facial features and integrating edits naturally with backgrounds, making it the top choice for professional content creation.",
-      "q4": "What are the best use cases for Nano Banana?",
-      "a4": "Nano Banana is perfect for creating consistent AI influencers, UGC content, social media campaigns, marketing materials, and product photography. Its ability to maintain character consistency across multiple images makes it invaluable for rich storytelling and brand content.",
-      "q5": "How do I access Nano Banana?",
-      "a5": "Nano Banana (Gemini 2.5 Flash Image) is available through the Gemini API, Google AI Studio for developers, and Vertex AI for enterprise users. You can also use it directly at gemini.google.com by uploading photos and using natural language editing commands."
+      "q1": "What is Nano Banana Pro?",
+      "a1": "Nano Banana Pro is the nickname for Gemini 2.5 Flash Image, Google's advanced AI image generation and editing model launched in August 2025. It enables users to generate or edit images directly from text prompts or images, with exceptional capabilities in character consistency and natural language editing.",
+      "q2": "What are Nano Banana Pro's key features?",
+      "a2": "Nano Banana Pro excels in character consistency for storytelling, multi-image blending, one-shot editing with natural language commands, and scene integration. It can maintain facial features and seamlessly blend edits with backgrounds, making it ideal for creating consistent AI content and product photography.",
+      "q3": "How does Nano Banana Pro compare to other models?",
+      "a3": "Nano Banana Pro stands out for its superior character consistency and scene blending capabilities. Users report it significantly outperforms competing models in preserving facial features and integrating edits naturally with backgrounds, making it the top choice for professional content creation.",
+      "q4": "What are the best use cases for Nano Banana Pro?",
+      "a4": "Nano Banana Pro is perfect for creating consistent AI influencers, UGC content, social media campaigns, marketing materials, and product photography. Its ability to maintain character consistency across multiple images makes it invaluable for rich storytelling and brand content.",
+      "q5": "How do I access Nano Banana Pro?",
+      "a5": "Nano Banana Pro (Gemini 2.5 Flash Image) is available through the Gemini API, Google AI Studio for developers, and Vertex AI for enterprise users. You can also use it directly at gemini.google.com by uploading photos and using natural language editing commands."
     },
     "prompt_guide": {
       "title": "Google Imagen Prompt Writing Guide",

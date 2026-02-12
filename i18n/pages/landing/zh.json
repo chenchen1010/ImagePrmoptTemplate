@@ -17,7 +17,7 @@
           "icon": "RiImageAiLine",
           "children": [
             {
-              "title": "Nano Banana",
+              "title": "Nano Banana Pro",
               "description": "Gemini 2.5 Flash 图像编辑器",
               "url": "/txt-to-image/nano-banana",
               "icon": "RiFlashlightLine"
@@ -180,7 +180,7 @@
           "title": "AI 图像",
           "children": [
             {
-              "title": "Nano Banana",
+              "title": "Nano Banana Pro",
               "url": "/txt-to-image/nano-banana",
               "target": "_self"
             }
